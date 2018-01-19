@@ -1,0 +1,49 @@
+---
+- name: "add repo"
+  apt:
+    deb: "{{ zabbix_repo }}"
+    state: present
+  tags:
+    - zabbix-agent
+    - zabbix-agent-install
+
+- name: "install"
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+    install_recommends: no
+  with_items:
+    - zabbix-agent
+    - zabbix-sender
+  tags:
+    - zabbix-agent
+    - zabbix-agent-install
+
+- name: "load config file"
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: "/etc/zabbix/zabbix_agentd.conf"
+    mode: 0644
+  notify: "restart zabbix-agent"
+  tags:
+    - zabbix-agent
+    - zabbix-agent-configure
+
+- name: "allow connections from server"
+  ufw:
+    rule: allow
+    from_ip: "{{ zabbix_server }}"
+  tags:
+    - zabbix-agent
+    - zabbix-agent-configure
+
+- name: "autostart"
+  systemd:
+    name: "zabbix-agent"
+    enabled: "{{ zabbix_service_enabled }}"
+  tags:
+    - zabbix-agent
+    - zabbix-agent-configure
+
+- meta: flush_handlers

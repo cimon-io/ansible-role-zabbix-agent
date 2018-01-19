@@ -1,0 +1,9 @@
+---
+zabbix_server: ""
+zabbix_group: ""
+zabbix_token: ""
+
+zabbix_service_enabled: yes
+
+zabbix_version: 3.2
+zabbix_repo: "http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-1+{{ ansible_distribution_release }}_all.deb"
