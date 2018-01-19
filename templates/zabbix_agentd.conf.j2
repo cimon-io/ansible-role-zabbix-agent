@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 # This is a configuration file for Zabbix agent daemon (Unix)
 # To get more information about Zabbix, visit http://www.zabbix.com
 
@@ -9,8 +11,7 @@
 # Mandatory: no
 # Default:
 # PidFile=/tmp/zabbix_agentd.pid
-
-PidFile=/run/zabbix/zabbix_agentd.pid
+PidFile={{ zabbix_PidFile }}
 
 ### Option: LogType
 #	Specifies where log messages are written to:
@@ -21,6 +22,7 @@ PidFile=/run/zabbix/zabbix_agentd.pid
 # Mandatory: no
 # Default:
 # LogType=file
+LogType={{ zabbix_LogType }}
 
 ### Option: LogFile
 #	Log file name for LogType 'file' parameter.
@@ -28,8 +30,7 @@ PidFile=/run/zabbix/zabbix_agentd.pid
 # Mandatory: no
 # Default:
 # LogFile=
-
-LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFile={{ zabbix_LogFile }}
 
 ### Option: LogFileSize
 #	Maximum size of log file in MB.
@@ -39,8 +40,7 @@ LogFile=/var/log/zabbix/zabbix_agentd.log
 # Range: 0-1024
 # Default:
 # LogFileSize=1
-
-LogFileSize=0
+LogFileSize={{ zabbix_LogFileSize }}
 
 ### Option: DebugLevel
 #	Specifies debug level:
@@ -55,6 +55,7 @@ LogFileSize=0
 # Range: 0-5
 # Default:
 # DebugLevel=3
+DebugLevel={{ zabbix_DebugLevel }}
 
 ### Option: SourceIP
 #	Source IP address for outgoing connections.
@@ -62,6 +63,7 @@ LogFileSize=0
 # Mandatory: no
 # Default:
 # SourceIP=
+SourceIP={{ zabbix_SourceIP }}
 
 ### Option: EnableRemoteCommands
 #	Whether remote commands from Zabbix server are allowed.
@@ -71,6 +73,7 @@ LogFileSize=0
 # Mandatory: no
 # Default:
 # EnableRemoteCommands=0
+EnableRemoteCommands={{ zabbix_EnableRemoteCommands }}
 
 ### Option: LogRemoteCommands
 #	Enable logging of executed shell commands as warnings.
@@ -80,19 +83,21 @@ LogFileSize=0
 # Mandatory: no
 # Default:
 # LogRemoteCommands=0
+LogRemoteCommands={{ zabbix_LogRemoteCommands }}
 
 ##### Passive checks related
 
 ### Option: Server
-#	List of comma delimited IP addresses (or hostnames) of Zabbix servers.
+#	List of comma delimited IP addresses, optionally in CIDR notation, or hostnames of Zabbix servers.
 #	Incoming connections will be accepted only from the hosts listed here.
-#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally and '::/0' will allow any IPv4 or IPv6 address.
+#	'0.0.0.0/0' can be used to allow any IPv4 address.
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.domain
 #
 # Mandatory: no
 # Default:
 # Server=
-
-Server={{ zabbix_server }}
+Server={{ zabbix_Server }}
 
 ### Option: ListenPort
 #	Agent will listen on this port for connections from the server.
@@ -101,6 +106,7 @@ Server={{ zabbix_server }}
 # Range: 1024-32767
 # Default:
 # ListenPort=10050
+ListenPort={{ zabbix_ListenPort }}
 
 ### Option: ListenIP
 #	List of comma delimited IP addresses that the agent should listen on.
@@ -109,6 +115,7 @@ Server={{ zabbix_server }}
 # Mandatory: no
 # Default:
 # ListenIP=0.0.0.0
+ListenIP={{ zabbix_ListenIP }}
 
 ### Option: StartAgents
 #	Number of pre-forked instances of zabbix_agentd that process passive checks.
@@ -118,6 +125,7 @@ Server={{ zabbix_server }}
 # Range: 0-100
 # Default:
 # StartAgents=3
+StartAgents={{ zabbix_StartAgents }}
 
 ##### Active checks related
 
@@ -132,8 +140,7 @@ Server={{ zabbix_server }}
 # Mandatory: no
 # Default:
 # ServerActive=
-
-ServerActive={{ zabbix_server }}
+ServerActive={{ zabbix_ServerActive }}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -143,8 +150,7 @@ ServerActive={{ zabbix_server }}
 # Mandatory: no
 # Default:
 # Hostname=
-
-Hostname={{ zabbix_group }}.{{ inventory_hostname_short }}
+Hostname={{ zabbix_Hostname }}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
@@ -153,6 +159,7 @@ Hostname={{ zabbix_group }}.{{ inventory_hostname_short }}
 # Mandatory: no
 # Default:
 # HostnameItem=system.hostname
+HostnameItem={{ zabbix_HostnameItem }}
 
 ### Option: HostMetadata
 #	Optional parameter that defines host metadata.
@@ -163,7 +170,8 @@ Hostname={{ zabbix_group }}.{{ inventory_hostname_short }}
 # Mandatory: no
 # Range: 0-255 characters
 # Default:
-HostMetadata={{ zabbix_group }} {{ zabbix_token }}
+# HostMetadata=
+HostMetadata={{ zabbix_HostMetadata }}
 
 ### Option: HostMetadataItem
 #	Optional parameter that defines an item used for getting host metadata.
@@ -174,7 +182,8 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 #
 # Mandatory: no
 # Default:
-# HostMetadataItem=system.uname
+# HostMetadataItem=
+HostMetadataItem={{ zabbix_HostMetadataItem }}
 
 ### Option: RefreshActiveChecks
 #	How often list of active checks is refreshed, in seconds.
@@ -183,6 +192,7 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Range: 60-3600
 # Default:
 # RefreshActiveChecks=120
+RefreshActiveChecks={{ zabbix_RefreshActiveChecks }}
 
 ### Option: BufferSend
 #	Do not keep data longer than N seconds in buffer.
@@ -191,6 +201,7 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Range: 1-3600
 # Default:
 # BufferSend=5
+BufferSend={{ zabbix_BufferSend }}
 
 ### Option: BufferSize
 #	Maximum number of values in a memory buffer. The agent will send
@@ -200,6 +211,7 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Range: 2-65535
 # Default:
 # BufferSize=100
+BufferSize={{ zabbix_BufferSize }}
 
 ### Option: MaxLinesPerSecond
 #	Maximum number of new lines the agent will send per second to Zabbix Server
@@ -211,6 +223,7 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Range: 1-1000
 # Default:
 # MaxLinesPerSecond=20
+MaxLinesPerSecond={{ zabbix_MaxLinesPerSecond }}
 
 ############ ADVANCED PARAMETERS #################
 
@@ -234,6 +247,7 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Range: 1-30
 # Default:
 # Timeout=3
+Timeout={{ zabbix_Timeout }}
 
 ### Option: AllowRoot
 #	Allow the agent to run as 'root'. If disabled and the agent is started by 'root', the agent
@@ -245,6 +259,7 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Mandatory: no
 # Default:
 # AllowRoot=0
+AllowRoot={{ zabbix_AllowRoot }}
 
 ### Option: User
 #	Drop privileges to a specific, existing user on the system.
@@ -253,18 +268,20 @@ HostMetadata={{ zabbix_group }} {{ zabbix_token }}
 # Mandatory: no
 # Default:
 # User=zabbix
+User={{ zabbix_User }}
 
 ### Option: Include
 #	You may include individual files or all files in a directory in the configuration file.
-#	Installing Zabbix will create include directory in /etc/zabbix, unless modified during the compile time.
+#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
 #
 # Mandatory: no
 # Default:
 # Include=
+Include={{ zabbix_Include }}
 
-# Include=/etc/zabbix/zabbix_agentd.userparams.conf
-# Include=/etc/zabbix/zabbix_agentd.conf.d/
-Include=/etc/zabbix/zabbix_agentd.d/*.conf
+# Include=/usr/local/etc/zabbix_agentd.userparams.conf
+# Include=/usr/local/etc/zabbix_agentd.conf.d/
+# Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
 
 ####### USER-DEFINED MONITORED PARAMETERS #######
 
@@ -280,6 +297,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Range: 0-1
 # Default:
 # UnsafeUserParameters=0
+UnsafeUserParameters={{ zabbix_UnsafeUserParameters }}
 
 ### Option: UserParameter
 #	User-defined parameter to monitor. There can be several user-defined parameters.
@@ -289,6 +307,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # UserParameter=
+UserParameter={{ zabbix_UserParameter }}
 
 ####### LOADABLE MODULES #######
 
@@ -299,6 +318,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # LoadModulePath=${libdir}/modules
+LoadModulePath={{ zabbix_LoadModulePath }}
 
 ### Option: LoadModule
 #	Module to load at agent startup. Modules are used to extend functionality of the agent.
@@ -309,6 +329,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # LoadModule=
+LoadModule={{ zabbix_LoadModule }}
 
 ####### TLS-RELATED PARAMETERS #######
 
@@ -322,6 +343,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSConnect=unencrypted
+TLSConnect={{ zabbix_TLSConnect }}
 
 ### Option: TLSAccept
 #	What incoming connections to accept.
@@ -333,6 +355,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSAccept=unencrypted
+TLSAccept={{ zabbix_TLSAccept }}
 
 ### Option: TLSCAFile
 #	Full pathname of a file containing the top-level CA(s) certificates for
@@ -341,6 +364,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSCAFile=
+TLSCAFile={{ zabbix_TLSCAFile }}
 
 ### Option: TLSCRLFile
 #	Full pathname of a file containing revoked certificates.
@@ -348,6 +372,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSCRLFile=
+TLSCRLFile={{ zabbix_TLSCRLFile }}
 
 ### Option: TLSServerCertIssuer
 #      Allowed server certificate issuer.
@@ -355,6 +380,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSServerCertIssuer=
+TLSServerCertIssuer={{ zabbix_TLSServerCertIssuer }}
 
 ### Option: TLSServerCertSubject
 #      Allowed server certificate subject.
@@ -362,6 +388,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSServerCertSubject=
+TLSServerCertSubject={{ zabbix_TLSServerCertSubject }}
 
 ### Option: TLSCertFile
 #	Full pathname of a file containing the agent certificate or certificate chain.
@@ -369,6 +396,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSCertFile=
+TLSCertFile={{ zabbix_TLSCertFile }}
 
 ### Option: TLSKeyFile
 #	Full pathname of a file containing the agent private key.
@@ -376,6 +404,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSKeyFile=
+TLSKeyFile={{ zabbix_TLSKeyFile }}
 
 ### Option: TLSPSKIdentity
 #	Unique, case sensitive string used to identify the pre-shared key.
@@ -383,6 +412,7 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSPSKIdentity=
+TLSPSKIdentity={{ zabbix_TLSPSKIdentity }}
 
 ### Option: TLSPSKFile
 #	Full pathname of a file containing the pre-shared key.
@@ -390,3 +420,4 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 # Mandatory: no
 # Default:
 # TLSPSKFile=
+TLSPSKFile={{ zabbix_TLSPSKFile }}
