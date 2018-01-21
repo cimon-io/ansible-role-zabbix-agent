@@ -39,7 +39,7 @@
 - name: "allow connections from server"
   ufw:
     rule: allow
-    from_ip: "{{ zabbix_server }}"
+    from_ip: "{{ zabbix_Server }}"
   tags:
     - zabbix-agent
     - zabbix-agent-configure
