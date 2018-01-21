@@ -1,4 +1,12 @@
 ---
+- name: "include vars"
+  include_vars: "{{ item }}"
+  with_items:
+    - "../vars/{{ ansible_distribution }}.yml"
+  tags:
+    - zabbix-agent
+    - zabbix-agent-install
+
 - name: "add repo"
   apt:
     deb: "{{ zabbix_repo }}"
@@ -13,9 +21,7 @@
     name: "{{ item }}"
     cache_valid_time: "{{ apt_cache_valid_time }}"
     install_recommends: no
-  with_items:
-    - zabbix-agent
-    - zabbix-sender
+  with_items: "{{ zabbix_packages }}"
   tags:
     - zabbix-agent
     - zabbix-agent-install

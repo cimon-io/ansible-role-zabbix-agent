@@ -1,0 +1,4 @@
+---
+zabbix_packages:
+  - zabbix-agent
+  - ufw

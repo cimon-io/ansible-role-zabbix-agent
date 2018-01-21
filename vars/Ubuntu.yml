@@ -1,0 +1,5 @@
+---
+zabbix_packages:
+  - zabbix-agent
+  - zabbix-sender
+  - ufw

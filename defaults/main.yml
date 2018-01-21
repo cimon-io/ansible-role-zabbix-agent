@@ -1,7 +1,7 @@
 ---
 zabbix_service_enabled: yes
 
-zabbix_version: 3.2
+zabbix_version: 3.4
 zabbix_repo: "http://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-1+{{ ansible_distribution_release }}_all.deb"
 
 zabbix_PidFile: "/tmp/zabbix_agentd.pid"
