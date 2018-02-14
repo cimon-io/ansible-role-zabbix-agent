@@ -19,7 +19,6 @@
   apt:
     update_cache: yes
     name: "{{ item }}"
-    cache_valid_time: "{{ apt_cache_valid_time }}"
     install_recommends: no
   with_items: "{{ zabbix_packages }}"
   tags:
