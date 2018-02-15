@@ -11,7 +11,7 @@
 # Mandatory: no
 # Default:
 # PidFile=/tmp/zabbix_agentd.pid
-PidFile={{ zabbix_PidFile }}
+{% if zabbix_PidFile|length > 0 %}PidFile={{ zabbix_PidFile }}{% endif %}
 
 ### Option: LogType
 #	Specifies where log messages are written to:
@@ -22,7 +22,7 @@ PidFile={{ zabbix_PidFile }}
 # Mandatory: no
 # Default:
 # LogType=file
-LogType={{ zabbix_LogType }}
+{% if zabbix_LogType|length > 0 %}LogType={{ zabbix_LogType }}{% endif %}
 
 ### Option: LogFile
 #	Log file name for LogType 'file' parameter.
@@ -30,7 +30,7 @@ LogType={{ zabbix_LogType }}
 # Mandatory: no
 # Default:
 # LogFile=
-LogFile={{ zabbix_LogFile }}
+{% if zabbix_LogFile|length > 0 %}LogFile={{ zabbix_LogFile }}{% endif %}
 
 ### Option: LogFileSize
 #	Maximum size of log file in MB.
@@ -63,7 +63,7 @@ DebugLevel={{ zabbix_DebugLevel }}
 # Mandatory: no
 # Default:
 # SourceIP=
-SourceIP={{ zabbix_SourceIP }}
+{% if zabbix_SourceIP|length > 0 %}SourceIP={{ zabbix_SourceIP }}{% endif %}
 
 ### Option: EnableRemoteCommands
 #	Whether remote commands from Zabbix server are allowed.
@@ -97,7 +97,7 @@ LogRemoteCommands={{ zabbix_LogRemoteCommands }}
 # Mandatory: no
 # Default:
 # Server=
-Server={{ zabbix_Server }}
+{% if zabbix_Server|length > 0 %}Server={{ zabbix_Server }}{% endif %}
 
 ### Option: ListenPort
 #	Agent will listen on this port for connections from the server.
@@ -115,7 +115,7 @@ ListenPort={{ zabbix_ListenPort }}
 # Mandatory: no
 # Default:
 # ListenIP=0.0.0.0
-ListenIP={{ zabbix_ListenIP }}
+{% if zabbix_ListenIP|length > 0 %}ListenIP={{ zabbix_ListenIP }}{% endif %}
 
 ### Option: StartAgents
 #	Number of pre-forked instances of zabbix_agentd that process passive checks.
@@ -140,7 +140,7 @@ StartAgents={{ zabbix_StartAgents }}
 # Mandatory: no
 # Default:
 # ServerActive=
-ServerActive={{ zabbix_ServerActive }}
+{% if zabbix_ServerActive|length > 0 %}ServerActive={{ zabbix_ServerActive }}{% endif %}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -150,7 +150,7 @@ ServerActive={{ zabbix_ServerActive }}
 # Mandatory: no
 # Default:
 # Hostname=
-Hostname={{ zabbix_Hostname }}
+{% if zabbix_Hostname|length > 0 %}Hostname={{ zabbix_Hostname }}{% endif %}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
@@ -159,7 +159,7 @@ Hostname={{ zabbix_Hostname }}
 # Mandatory: no
 # Default:
 # HostnameItem=system.hostname
-HostnameItem={{ zabbix_HostnameItem }}
+{% if zabbix_HostnameItem|length > 0 %}HostnameItem={{ zabbix_HostnameItem }}{% endif %}
 
 ### Option: HostMetadata
 #	Optional parameter that defines host metadata.
@@ -171,7 +171,7 @@ HostnameItem={{ zabbix_HostnameItem }}
 # Range: 0-255 characters
 # Default:
 # HostMetadata=
-HostMetadata={{ zabbix_HostMetadata }}
+{% if zabbix_HostMetadata|length > 0 %}HostMetadata={{ zabbix_HostMetadata }}{% endif %}
 
 ### Option: HostMetadataItem
 #	Optional parameter that defines an item used for getting host metadata.
@@ -183,7 +183,7 @@ HostMetadata={{ zabbix_HostMetadata }}
 # Mandatory: no
 # Default:
 # HostMetadataItem=
-HostMetadataItem={{ zabbix_HostMetadataItem }}
+{% if zabbix_HostMetadataItem|length > 0 %}HostMetadataItem={{ zabbix_HostMetadataItem }}{% endif %}
 
 ### Option: RefreshActiveChecks
 #	How often list of active checks is refreshed, in seconds.
@@ -268,7 +268,7 @@ AllowRoot={{ zabbix_AllowRoot }}
 # Mandatory: no
 # Default:
 # User=zabbix
-User={{ zabbix_User }}
+{% if zabbix_User|length > 0 %}User={{ zabbix_User }}{% endif %}
 
 ### Option: Include
 #	You may include individual files or all files in a directory in the configuration file.
@@ -277,7 +277,9 @@ User={{ zabbix_User }}
 # Mandatory: no
 # Default:
 # Include=
-Include={{ zabbix_Include }}
+{% for include_item in zabbix_Include %}
+Include={{ include_item }}
+{% endfor %}
 
 # Include=/usr/local/etc/zabbix_agentd.userparams.conf
 # Include=/usr/local/etc/zabbix_agentd.conf.d/
@@ -307,7 +309,9 @@ UnsafeUserParameters={{ zabbix_UnsafeUserParameters }}
 # Mandatory: no
 # Default:
 # UserParameter=
-UserParameter={{ zabbix_UserParameter }}
+{% for userparam in zabbix_UserParameter %}
+UserParameter={{ userparam }}
+{% endfor %}
 
 ####### LOADABLE MODULES #######
 
@@ -318,7 +322,7 @@ UserParameter={{ zabbix_UserParameter }}
 # Mandatory: no
 # Default:
 # LoadModulePath=${libdir}/modules
-LoadModulePath={{ zabbix_LoadModulePath }}
+{% if zabbix_LoadModulePath|length > 0 %}LoadModulePath={{ zabbix_LoadModulePath }}{% endif %}
 
 ### Option: LoadModule
 #	Module to load at agent startup. Modules are used to extend functionality of the agent.
@@ -329,7 +333,7 @@ LoadModulePath={{ zabbix_LoadModulePath }}
 # Mandatory: no
 # Default:
 # LoadModule=
-LoadModule={{ zabbix_LoadModule }}
+{% if zabbix_LoadModule|length > 0 %}LoadModule={{ zabbix_LoadModule }}{% endif %}
 
 ####### TLS-RELATED PARAMETERS #######
 
@@ -343,7 +347,7 @@ LoadModule={{ zabbix_LoadModule }}
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSConnect=unencrypted
-TLSConnect={{ zabbix_TLSConnect }}
+{% if zabbix_TLSConnect|length > 0 %}TLSConnect={{ zabbix_TLSConnect }}{% endif %}
 
 ### Option: TLSAccept
 #	What incoming connections to accept.
@@ -355,7 +359,7 @@ TLSConnect={{ zabbix_TLSConnect }}
 # Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
 # Default:
 # TLSAccept=unencrypted
-TLSAccept={{ zabbix_TLSAccept }}
+{% if zabbix_TLSAccept|length > 0 %}TLSAccept={{ zabbix_TLSAccept }}{% endif %}
 
 ### Option: TLSCAFile
 #	Full pathname of a file containing the top-level CA(s) certificates for
@@ -364,7 +368,7 @@ TLSAccept={{ zabbix_TLSAccept }}
 # Mandatory: no
 # Default:
 # TLSCAFile=
-TLSCAFile={{ zabbix_TLSCAFile }}
+{% if zabbix_TLSCAFile|length > 0 %}TLSCAFile={{ zabbix_TLSCAFile }}{% endif %}
 
 ### Option: TLSCRLFile
 #	Full pathname of a file containing revoked certificates.
@@ -372,7 +376,7 @@ TLSCAFile={{ zabbix_TLSCAFile }}
 # Mandatory: no
 # Default:
 # TLSCRLFile=
-TLSCRLFile={{ zabbix_TLSCRLFile }}
+{% if zabbix_TLSCRLFile|length > 0 %}TLSCRLFile={{ zabbix_TLSCRLFile }}{% endif %}
 
 ### Option: TLSServerCertIssuer
 #      Allowed server certificate issuer.
@@ -380,7 +384,7 @@ TLSCRLFile={{ zabbix_TLSCRLFile }}
 # Mandatory: no
 # Default:
 # TLSServerCertIssuer=
-TLSServerCertIssuer={{ zabbix_TLSServerCertIssuer }}
+{% if zabbix_TLSServerCertIssuer|length > 0 %}TLSServerCertIssuer={{ zabbix_TLSServerCertIssuer }}{% endif %}
 
 ### Option: TLSServerCertSubject
 #      Allowed server certificate subject.
@@ -388,7 +392,7 @@ TLSServerCertIssuer={{ zabbix_TLSServerCertIssuer }}
 # Mandatory: no
 # Default:
 # TLSServerCertSubject=
-TLSServerCertSubject={{ zabbix_TLSServerCertSubject }}
+{% if zabbix_TLSServerCertSubject|length > 0 %}TLSServerCertSubject={{ zabbix_TLSServerCertSubject }}{% endif %}
 
 ### Option: TLSCertFile
 #	Full pathname of a file containing the agent certificate or certificate chain.
@@ -396,7 +400,7 @@ TLSServerCertSubject={{ zabbix_TLSServerCertSubject }}
 # Mandatory: no
 # Default:
 # TLSCertFile=
-TLSCertFile={{ zabbix_TLSCertFile }}
+{% if zabbix_TLSCertFile|length > 0 %}TLSCertFile={{ zabbix_TLSCertFile }}{% endif %}
 
 ### Option: TLSKeyFile
 #	Full pathname of a file containing the agent private key.
@@ -404,7 +408,7 @@ TLSCertFile={{ zabbix_TLSCertFile }}
 # Mandatory: no
 # Default:
 # TLSKeyFile=
-TLSKeyFile={{ zabbix_TLSKeyFile }}
+{% if zabbix_TLSKeyFile|length > 0 %}TLSKeyFile={{ zabbix_TLSKeyFile }}{% endif %}
 
 ### Option: TLSPSKIdentity
 #	Unique, case sensitive string used to identify the pre-shared key.
@@ -412,7 +416,7 @@ TLSKeyFile={{ zabbix_TLSKeyFile }}
 # Mandatory: no
 # Default:
 # TLSPSKIdentity=
-TLSPSKIdentity={{ zabbix_TLSPSKIdentity }}
+{% if zabbix_TLSPSKIdentity|length > 0 %}TLSPSKIdentity={{ zabbix_TLSPSKIdentity }}{% endif %}
 
 ### Option: TLSPSKFile
 #	Full pathname of a file containing the pre-shared key.
@@ -420,4 +424,4 @@ TLSPSKIdentity={{ zabbix_TLSPSKIdentity }}
 # Mandatory: no
 # Default:
 # TLSPSKFile=
-TLSPSKFile={{ zabbix_TLSPSKFile }}
+{% if zabbix_TLSPSKFile|length > 0 %}TLSPSKFile={{ zabbix_TLSPSKFile }}{% endif %}
