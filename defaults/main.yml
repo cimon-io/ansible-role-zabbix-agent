@@ -4,9 +4,9 @@ zabbix_service_enabled: yes
 zabbix_version: 3.4
 zabbix_repo: "http://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_version }}-1+{{ ansible_distribution_release }}_all.deb"
 
-zabbix_PidFile: "/tmp/zabbix_agentd.pid"
+zabbix_PidFile: "/run/zabbix/zabbix_agentd.pid"
 zabbix_LogType: "file"
-zabbix_LogFile: ""
+zabbix_LogFile: "/var/log/zabbix/zabbix_agentd.log"
 zabbix_LogFileSize: 1
 zabbix_DebugLevel: 3
 zabbix_SourceIP: ""
@@ -28,9 +28,9 @@ zabbix_MaxLinesPerSecond: 20
 zabbix_Timeout: 3
 zabbix_AllowRoot: 0
 zabbix_User: "zabbix"
-zabbix_Include: ""
+zabbix_Include: []
 zabbix_UnsafeUserParameters: 0
-zabbix_UserParameter: ""
+zabbix_UserParameter: []
 zabbix_LoadModulePath: "${libdir}/modules"
 zabbix_LoadModule: ""
 zabbix_TLSConnect: "unencrypted"
