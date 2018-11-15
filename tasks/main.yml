@@ -18,9 +18,8 @@
 - name: "install"
   apt:
     update_cache: yes
-    name: "{{ item }}"
+    name: "{{ zabbix_packages }}"
     install_recommends: no
-  with_items: "{{ zabbix_packages }}"
   tags:
     - zabbix-agent
     - zabbix-agent-install
