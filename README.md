@@ -10,7 +10,7 @@ Available variables are listed below, along with default values (see defaults/ma
 
 ```
 zabbix_service_enabled: yes
-zabbix_version: 3.2
+zabbix_version: 3.4
 
 zabbix_PidFile: "/tmp/zabbix_agentd.pid"
 zabbix_LogType: "file"
@@ -61,4 +61,3 @@ Host autoregistration:
 zabbix_Hostname: "{{ zabbix_group }}.{{ inventory_hostname_short }}"
 zabbix_HostMetadata: "{{ zabbix_group }} {{ zabbix_token }}"
 ```
-

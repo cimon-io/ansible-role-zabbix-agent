@@ -11,6 +11,9 @@
   apt:
     deb: "{{ zabbix_repo }}"
     state: present
+  retries: "{{ remote_package_retries }}"
+  register: apt_repo_result
+  until: apt_repo_result is succeeded
   tags:
     - zabbix-agent
     - zabbix-agent-install
@@ -20,6 +23,9 @@
     update_cache: yes
     name: "{{ zabbix_packages }}"
     install_recommends: no
+  retries: "{{ remote_package_retries }}"
+  register: apt_result
+  until: apt_result is succeeded
   tags:
     - zabbix-agent
     - zabbix-agent-install
